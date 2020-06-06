@@ -1,17 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button @click="apod"> Astronomy Picture of the Day</button>
+    <p>{{apodData.date}}</p>
+    <img id="apod" :src="apodData.hdurl" alt="">
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  
+  data(){
+    return{
+      name: "8=====D",
+      apodData: {},
+    }
+  },
+  methods: {
+    apod() {
+      fetch('https://api.nasa.gov/planetary/apod?api_key=jsFZytOioyae3IShfceg42zcIAIbpaRUpAlPMmG1').then(response => {
+        return response.json()
+      }).then(this.setApodData)
+    },
+    setApodData (results) {
+      this.apodData = results;
+    }
   }
 }
 </script>
@@ -25,4 +39,12 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+#apod{
+  width: 400px;
+  height: 400px;
+  border: 3px solid pink;
+  object-fit: cover;
+}
+
 </style>
